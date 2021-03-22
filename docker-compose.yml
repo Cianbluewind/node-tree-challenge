@@ -1,0 +1,51 @@
+services:
+  ui:
+    image: nodetreeinterface
+    build:
+      context: ./node-tree-interface/
+      dockerfile: Dockerfile
+    networks: 
+      - nodetree
+    ports:
+      - "4301:80"
+    environment: 
+      API_URL: http://localhost:8080
+  api:
+    image: nodetreemanager
+    build:
+      context: ./node-tree-manager/
+      dockerfile: Dockerfile  
+    networks: 
+      - nodetree
+    depends_on:
+      - neo4j
+    ports:
+      - "8080:8080"
+    environment:      
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USERNAME: neo4j
+      NEO4J_PASSWORD: Troca@123
+  neo4j:
+    image: neo4j-loaded
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_dbms_shell_enabled=true
+      - NEO4J_AUTH=neo4j/Troca@123
+    volumes:
+      - ./plugins:/plugins
+      - ./data:/data
+      - ./import:/import
+    networks: 
+      - nodetree
+volumes:
+  data:
+networks:
+  nodetree:
+    driver: bridge
