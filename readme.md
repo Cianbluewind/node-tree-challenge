@@ -1,7 +1,7 @@
 # node-tree-challenge
 Node Tree Challenge for Tradeshift
 
-## featuring
+## Featuring
 - [Node.js / npm]
 - [Angular]
 - [neo4j]
