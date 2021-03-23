@@ -36,7 +36,7 @@ The API is located at localhost:8080 and it is comprised of the following endpoi
 /node/{id}/children - (GET) Get all the direct or indirect child nodes of the node with the following UUID
 /updateParentNode?nodeId={nodeId}&parentId={parentId} - (POST)  Sets parent of the node with UUID = nodeId as the node with UUID = parentId
 ```
-## NEO4J
+## Neo4j
 >Neo4j: localhost:7474
 ```
 Access Neo4j to get real time feedback on the graph and also for CRUD operations directly on the database for testing!
