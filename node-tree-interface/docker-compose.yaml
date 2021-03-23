@@ -1,0 +1,58 @@
+version: '3.4'
+
+services:
+  api:
+    image: nodetree-api
+    build:
+      context: nodetree-api // nome-da-pasta
+      dockerfile: Dockerfile
+    networks: 
+      - api
+    depends_on:
+      - db
+    environment:      
+      ConnectionStrings__dbname: userdb
+      ConnectionStrings__host: db
+      ConnectionStrings__password: 1234
+      ConnectionStrings__port: 5432
+      ConnectionStrings__username: appuser
+  ui:
+    image: nodetree-ui
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    networks: 
+      - api
+    depends_on:
+      - api
+    environment:      
+      ConnectionStrings__dbname: userdb
+      API_URL: http://api
+      ConnectionStrings__host: db
+      ConnectionStrings__password: 1234
+      ConnectionStrings__port: 5432
+      ConnectionStrings__username: appuser
+  neo4j:
+    image: neo4j:latest
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_dbms_shell_enabled=true
+    volumes:
+      - ./plugins:/plugins
+      - ./data:/data
+      - ./import:/import
+    networks: 
+      - api      
+    volumes:
+      - $HOME/neo4j/data:/data \
+      - ./BTT.Users.Migrations/Scripts:/docker-entrypoint-initdb.d
+volumes:
+  pg-data:
+
+networks:
+  api:
+    driver: bridge

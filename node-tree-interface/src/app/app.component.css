@@ -1,0 +1,17 @@
+.sidebar{ 
+    background-color: #EFF3F5;
+    border-radius: 2%;
+    text-align: center;
+}
+.infopanel { 
+    margin:1em;
+    background-color: #E6ECEF;
+    border-radius: 2%;
+    padding:1em
+}
+.btn { 
+margin: 0.5em;
+}
+.searcharea{ 
+    padding:1em
+}

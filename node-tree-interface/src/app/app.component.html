@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <ngx-graph 
+  class="chart-container"
+  [view]="[800, 600]"
+  [showMiniMap]="true"
+  [links]="links"
+  [nodes]="nodes"
+  layout="dagreCluster"
+>
+<ng-template #defsTemplate>
+  <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">
+    <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
+  </svg:marker>
+</ng-template>
+
+<ng-template #nodeTemplate let-node>
+  <svg:g class="node" (click)="setSelectedNode(node)">
+    <svg:rect
+      [attr.width]="node.dimension.width"
+      [attr.height]="node.dimension.height"
+      [attr.fill]="node.data.color"
+    />
+    <svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="node.dimension.height / 2">
+      {{node.id}}
+    </svg:text>
+  </svg:g>
+</ng-template>
+
+</ngx-graph>
+    </div>
+    <div class="col sidebar">
+      <div class="md-form mt-0 searcharea">
+        <input class="form-control" type="number" placeholder="Search for a node" aria-label="Search" [(ngModel)]="searchString" (focusout)="searchForNode()">
+      </div>
+      <div class="infopanel">
+          <p *ngIf="selectedNode"><strong>Selected Node: </strong> {{selectedNode?.label}}</p>
+          <p *ngIf="selectedNode"><strong>Height: </strong>  {{selectedNode?.height}}</p>
+          <p *ngIf="selectedNode"><strong>Parent Node: </strong>  {{selectedNode?.parentId}}</p>
+          <p *ngIf="selectedNode"><strong>Root Node: </strong>   {{selectedNode?.rootNodeId}}</p>
+      </div> 
+          <div *ngIf="selectedNode">
+            <p>Select the new Parent Node:</p>
+
+            <div class="col">
+              <div ngbDropdown class="d-inline-block">
+                <button class="btn btn-outline-primary" ngbDropdownToggle>{{ parentNodeId > -1 ? parentNodeId : 'Select new Parent'}}</button>
+                <div ngbDropdownMenu>
+                  <button *ngFor="let item of getValidNodes()" (click)="setParentNode(item)" ngbDropdownItem>{{item}}</button>
+                </div>
+              </div>
+            
+            <button class="btn btn-warning" (click)="changeNodeParent()"><i class="ts-icon-add-current-object"></i> Change Parent</button>
+            <button class="btn btn-success" (click)="getChildNodes()"><i class="ts-icon-view"></i> Get all Child Nodes</button>
+            <p class="infopanel">
+              {{childNodes}}
+            </p>
+          </div>
+          </div>
+        </div>
+  </div>
+</div>
