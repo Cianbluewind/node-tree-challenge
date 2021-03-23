@@ -9,13 +9,15 @@ Node Tree Challenge for Tradeshift
 - [Spring]
 - [Docker]
 
+## Instructions
 
-- Install Docker
-- Clone the repository and run docker-compose up to get the application online.
 ```
+Install Docker
+git clone github.com/Cianbluewind/node-tree-challenge.git
 cd node-tree-challenge
 docker-compose up 
 ```
+
 ## User Interface
 >UI: localhost:4301
 ```
